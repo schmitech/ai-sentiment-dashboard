@@ -19,57 +19,43 @@ A real-time customer review analytics platform that uses AI-powered sentiment an
 - **Alert Management**: Proactive handling of negative reviews
 - **Interactive Dashboard**: Real-time updates and visualizations
 
-## 🏗 Architecture
+## Architecture
 
 ```mermaid
 flowchart TD
-    %% Main Frontend Container
-    subgraph Frontend["Frontend Application"]
-        direction TB
-        
-        %% Core UI Components
-        subgraph UI["User Interface"]
-            direction LR
-            RL["📋 Review List"]
-            AD["📊 Analytics Dashboard"]
-            AT["🔔 Alerts Table"]
-        end
-        
-        %% Processing Components
-        subgraph Processors["Processing Layer"]
-            direction LR
-            RG["📝 Review Generator"]
-            SA["🔍 Sentiment Analyzer"]
-        end
+    subgraph Frontend
+        UI[React Components] --> RG[Review Generator]
+        RG --> SA[Sentiment Analyzer]
+        SA -->|Engine Selection| APIs
     end
     
-    %% External APIs
-    subgraph APIs["Sentiment Analysis Services"]
-        direction TB
-        GA["Google NL API"]
-        HF["HuggingFace API"]
-        OL["Ollama Local API"]
-        FB["Fallback Engine"]
+    subgraph APIs
+        GA[Google NL]
+        HF[HuggingFace]
+        OL[Ollama]
+        FB[Fallback]
     end
     
-    %% Define relationships
-    UI --> RG
-    RG --> SA
-    SA --> |"Engine Selection"| APIs
-    
-    %% API responses
-    APIs --> |"Analysis Results"| SA
-    SA --> |"Updates"| UI
-    
-    %% Style definitions
-    classDef primary fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    classDef secondary fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-    classDef api fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
-    
-    %% Apply styles
-    class UI,Processors primary
-    class APIs secondary
-    class GA,HF,OL,FB api
+    APIs -->|Normalized Scores| SA
+    SA -->|Real-Time Updates| UI
+```
+
+## Application Logic
+```mermaid
+graph TD
+    A[Review Text] --> B{Analysis Engine}
+    B -->|Primary| C[Google NL API]
+    B -->|Secondary| D[HuggingFace]
+    B -->|Local| E[Ollama]
+    B -->|Fallback| F[Rule-Based]
+    C --> G[Score: -1 to 1]
+    D --> G
+    E --> G
+    F --> G
+    G --> H{Categorization}
+    H -->|≥ 0.2| I[Positive]
+    H -->|≤ -0.2| J[Negative]
+    H -->|Other| K[Neutral]
 ```
 
 ## 🚀 Getting Started

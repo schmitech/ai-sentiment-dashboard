@@ -1,12 +1,16 @@
 import React from 'react';
-import { Twitter, Instagram, Globe, Mail, Star, StarHalf } from 'lucide-react';
+import { X, Instagram, Globe, Mail, Star, StarHalf, Facebook, Youtube, Linkedin } from 'lucide-react';
 import type { Review, ReviewSource } from '../types';
 
 const sourceIcons: Record<ReviewSource, React.ReactNode> = {
-  X: <Twitter className="w-5 h-5" />,
+  X: <X className="w-5 h-5" />,
   Instagram: <Instagram className="w-5 h-5" />,
   web: <Globe className="w-5 h-5" />,
-  email: <Mail className="w-5 h-5" />
+  email: <Mail className="w-5 h-5" />,
+  TikTok: <Globe className="w-5 h-5" />,
+  Facebook: <Facebook className="w-5 h-5" />,
+  YouTube: <Youtube className="w-5 h-5" />,
+  LinkedIn: <Linkedin className="w-5 h-5" />
 };
 
 const sentimentColors = {
